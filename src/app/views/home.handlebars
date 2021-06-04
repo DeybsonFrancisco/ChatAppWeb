@@ -21,6 +21,7 @@
 </div>
 
 <script>
+    Notification.requestPermission()
     const redirect = (element, link) =>{
         element.addEventListener('input', () =>{
             const url = window.location.href
