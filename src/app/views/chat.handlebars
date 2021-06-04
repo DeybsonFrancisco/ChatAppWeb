@@ -1,45 +1,169 @@
-<h1>PAGE chat:{{num}}</h1>
-<ul id="messages"></ul>
-    <form id="form" action="">
+<header>
+  <h1>CHATappWeb</h1>
+  <span>Troca de mensagens rapido e facil</span>
+</header>
+<div id="container">
+  <div id="container-room-name">
+    <span id="span-room-name">Sala:  {{roomName}}</span>
+  </div>
+  
+  <ul id="messages"></ul>
+  <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
     </form>
+</div>
+
+    
 
 <style>
-      body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      body { 
+        margin: 0; 
+        padding-bottom: 3rem; 
+               font-family: 'Odibee Sans', cursive;
+      }
+      header{
+        padding-left: 25px;
+        width: 100vw;
+        height: 70px;
+        background-color: #ece5dd;
+        color: #25d366;
+        display: flex;
+        justify-content: space-around;
+      }
+      header > h1 {
+        display: block;
+        width: 250px;
+      }
+      header span{
+        display: block;
+        width: 200px;
+        margin: 35px 0;
+      }
 
-      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px); }
-      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
-      #input:focus { outline: none; }
-      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+      #container{
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      #container-room-name{
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages > li { padding: 0.5rem 1rem; }
-      #messages > li:nth-child(odd) { background: #efefef; }
+      #container-room-name #span-room-name{
+        color: #fff;
+        display: block;
+        width: 300px;
+        height: 40px;
+        padding-top: 20px;
+        padding-left: 10px;
+        font-weight: bold;
+        text-align: start;
+        background-color: #333;
+        margin-top: 14px;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+
+      }
+
+      #form { 
+        background: rgba(0, 0, 0, 0.15); 
+        padding: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0; 
+        right: 0;
+        display: flex; 
+        height: 3rem; 
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+      }
+      #input { 
+        border: none;
+        padding: 0 1rem;
+        flex-grow: 1; 
+        border-radius: 2rem; 
+        margin: 0.25rem; 
+        background-color: #ece5dd;
+      }
+      #input:focus { 
+        outline: none;
+      }
+      #form > button {
+        background: #333;
+        border: none; 
+        padding: 0 1rem; 
+        margin: 0.25rem; 
+        border-radius: 3px; 
+        outline: none; 
+        color: #fff; }
+
+      #messages {
+        list-style-type: none; 
+        margin: 0;
+        padding: 0;
+        padding-left: 21px;
+      }
+      #messages div { 
+        padding: 0.5rem 1rem; 
+        max-width: 40vw;
+        background: #ece5dd; 
+        margin-top: 15px; 
+        border-radius: 5px;
+      }
+       #messages div span{
+        font-weight: bold;
+        color: #34b7f1
+      }
+      #messages .minhamsg{
+        text-align: right;
+        margin-left: 60vw;
+        margin-right: 21px;
+      }
+     
     </style>
 
     
 <script>
 const urlParams = new URLSearchParams(window.location.search)
+const room = urlParams.get('room')
 
-socket.emit('join-room', urlParams.get('room'))
+const nickName = prompt('Digite seu nick:')
+
+socket.emit('join-room',{room, nickName} )
 socket.on('disconnected', msg => console.log(msg))
 
 var form = document.getElementById('form');
 var input = document.getElementById('input');
 
-socket.on('chat message', function(msg) {
-    console.log('msg:' , msg)
-var item = document.createElement('li');
-   item.textContent = msg;
-   messages.appendChild(item);
-   window.scrollTo(0, document.body.scrollHeight);
+socket.on('chat message', function({nickName, msg}) {
+  var balao = document.createElement('div')
+  var message = document.createElement('li');
+  var nick = document.createElement('span')
+    nick.textContent = nickName;
+    message.textContent = msg;
+    balao.appendChild(nick)
+    balao.appendChild(message)
+    messages.appendChild(balao);
+    window.scrollTo(0, document.body.scrollHeight);
 });
 
 
 form.addEventListener('submit', function(e) {
   e.preventDefault();
   if (input.value) {
-    socket.emit('chat message', input.value);
+    socket.emit('chat message', {nickName, msg: input.value});
+    var balao = document.createElement('div');
+    var message = document.createElement('li');
+    var nick = document.createElement('span')
+    balao.setAttribute('class', 'minhamsg')
+    nick.textContent = "Eu";
+    message.textContent = input.value;
+    balao.appendChild(nick)
+    balao.appendChild(message)
+    messages.appendChild(balao);
+    window.scrollTo(0, document.body.scrollHeight);
     input.value = '';
   }
 });

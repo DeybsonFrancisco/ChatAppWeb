@@ -16,10 +16,10 @@ const Server = new App(deps);
 io = socketServer(Server.serverHttp);
 
 io.on('connection', (socket) => {
-  socket.on('join-room', (room) => {
+  socket.on('join-room', ({ room, nickName }) => {
     socket.join(room);
-    socket.on('chat message', (msg) => {
-      io.to(room).emit('chat message', msg);
+    socket.on('chat message', ({ nickName, msg }) => {
+      socket.to(room).emit('chat message', { nickName, msg });
     });
     socket.on('disconnect', () => {
       socket.to(room).emit('disconnected', `disconectou ${socket.id}`);
