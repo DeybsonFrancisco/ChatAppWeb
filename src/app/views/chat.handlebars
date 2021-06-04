@@ -127,6 +127,8 @@
 
     
 <script>
+
+Notification.requestPermission()
 const urlParams = new URLSearchParams(window.location.search)
 const room = urlParams.get('room')
 
@@ -135,7 +137,7 @@ const nickName = prompt('Digite seu nick:')
 socket.emit('join-room',{room, nickName} )
 socket.on('user-connect-room', nick =>{
 
-  if(document.hidden){
+  if(document.hidden || window.closed || window.m){
     notifyMe("Uma novo usuario se conectou a sala")   
   }else{
     alert(`Um usuario entrou na sala com o nickname:  ${nick}`)
