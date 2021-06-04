@@ -122,7 +122,7 @@
         margin-right: 21px;
       }
      
-    </style>
+</style>
 
     
 <script>
@@ -132,6 +132,9 @@ const room = urlParams.get('room')
 const nickName = prompt('Digite seu nick:')
 
 socket.emit('join-room',{room, nickName} )
+socket.on('user-connect-room', nick =>{
+  alert(`Um usuario entrou na sala com o nickname:  ${nick}`)
+})
 socket.on('disconnected', msg => console.log(msg))
 
 var form = document.getElementById('form');

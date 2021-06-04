@@ -18,6 +18,7 @@ io = socketServer(Server.serverHttp);
 io.on('connection', (socket) => {
   socket.on('join-room', ({ room, nickName }) => {
     socket.join(room);
+    socket.to(room).emit('user-connect-room', nickName);
     socket.on('chat message', ({ nickName, msg }) => {
       socket.to(room).emit('chat message', { nickName, msg });
     });
