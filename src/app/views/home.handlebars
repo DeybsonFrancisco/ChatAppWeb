@@ -3,17 +3,10 @@
         <form action="" id="form-options-room">
             <span id="title">chatApp</span>
             <fieldset>
-                <legend>Create room</legend>
+                <legend>Room</legend>
                 <label for="input-create-room-name">Room name</label>
-                <input type="text"  id="input-create-room-name" maxlength="20" >
+                <input type="text"  placeholder="Digite o nome da sala" id="input-create-room-name" maxlength="20" >
                 <a href="" id="link-create-room-name" class="material-icons md-48 md-light">add_circle
-                </a>
-            </fieldset>
-            <fieldset>
-                <legend>Join room</legend>
-                <label for="input-join-room-name">Room name</label>
-                <input type="text"  id="input-join-room-name" maxlength="20" >
-                <a href="" id="link-join-room-name" class="material-icons md-48 md-light">groups
                 </a>
             </fieldset>
         </form>
@@ -25,22 +18,21 @@
     const redirect = (element, link) =>{
         element.addEventListener('input', () =>{
             const url = window.location.href
-            console.log(url)
-            const roomName = element.value
-            link.setAttribute('href', `${url}chat?room=${roomName}`)
+            if(element.value){
+                const roomName = element.value
+                link.setAttribute('href', `${url}chat?room=${roomName}`)
+            }
+            
         
         })
 
     }
-        const linkCreateRoom = document.getElementById("link-create-room-name")
-        const inputCreteRoom = document.getElementById("input-create-room-name")
-        
-        redirect(inputCreteRoom, linkCreateRoom)
+    const linkCreateRoom = document.getElementById("link-create-room-name")
+    const inputCreteRoom = document.getElementById("input-create-room-name")
+    
+    redirect(inputCreteRoom, linkCreateRoom)
 
-        const linkJoinRoom = document.getElementById("link-join-room-name")
-        const inputJoinRoom = document.getElementById("input-join-room-name")
-
-        redirect(inputJoinRoom, linkJoinRoom)
+    const form = document.getElementById("form-options-room")
 
 </script>
 
@@ -48,8 +40,8 @@
 <style>
 
     #container-home{
-        width: 100vw;
-        height: 100vh;
+        width: 95vw;
+        height: 95vh;
         display:flex;
         align-items: center;
         justify-content: center;
@@ -95,7 +87,7 @@
     }
 
     #div-form-chat-options #form-options-room fieldset label, input{
-        font-size: 20px;
+        font-size: 14px;
 
     }
     #div-form-chat-options #form-options-room fieldset input{
