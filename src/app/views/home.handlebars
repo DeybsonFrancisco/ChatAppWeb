@@ -15,7 +15,7 @@
 
 <script>
     Notification.requestPermission()
-    const redirect = (element, link) =>{
+    const sethrefredirect = (element, link) =>{
         element.addEventListener('input', () =>{
             const url = window.location.href
             if(element.value){
@@ -28,11 +28,21 @@
 
     }
     const linkCreateRoom = document.getElementById("link-create-room-name")
-    const inputCreteRoom = document.getElementById("input-create-room-name")
+    const inputCreateRoom = document.getElementById("input-create-room-name")
     
-    redirect(inputCreteRoom, linkCreateRoom)
+    sethrefredirect(inputCreateRoom, linkCreateRoom)
 
     const form = document.getElementById("form-options-room")
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        if(inputCreateRoom.value){
+            const url = window.location.href
+            console.log(url)
+            window.location= `${url}chat?room=${inputCreateRoom.value}`
+
+        }
+    } )
 
 </script>
 
