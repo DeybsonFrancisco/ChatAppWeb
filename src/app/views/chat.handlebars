@@ -163,7 +163,7 @@ socket.on('chat message', function({nickName, msg}) {
   window.scrollTo(0, document.body.scrollHeight);
 
   if(document.hidden){
-      notifyMe("Uma nova mensagem chegou")
+      notifyMe(`Uma nova mensagem de ${nickName} chegou`)
   }
 
 });
