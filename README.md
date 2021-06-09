@@ -2,6 +2,10 @@
 
 #### chat feito para estudo de websockets em javascript
 
+#### link
+
+https://chatappweb-deybson.herokuapp.com/
+
 ### Tecnologias usadas
 
 - nodejs
@@ -29,3 +33,5 @@ Quando alguem entra na sala todos da sala são notificados sobre o novo particip
 Quando o navegador esta minimizado, ou a aba do chat esta inativa, mensagens e entradas de novas pessoas são notificadas via Notificações push, caso tenha dado permissão para recebimento
 
 ![Screeshot](screenshots/chatappweb-notification.png)
+
+-
